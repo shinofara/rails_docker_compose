@@ -1,0 +1,56 @@
+version: '2'
+services:
+  rails_nginx:
+    image: nginx:1.11.0-alpine
+    ports:
+      - 80:80
+    volumes:
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d:ro
+      - /etc/localtime:/etc/localtime:ro
+    volumes_from:
+      - rails_app
+    depends_on:
+      - rails_app
+    links:
+      - rails_app
+
+  rails_db:
+    build: ./docker/mariadb
+    volumes:
+      - ./.data/db/mysql:/var/lib/mysql
+      - ./.data/conf.d:/etc/mysql/conf.d:ro
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      MYSQL_DATABASE: sample_development
+      MYSQL_ROOT_PASSWORD: root
+      restart: always
+  rails_app:
+    build: .
+    command: bundle exec puma -C config/puma.rb
+    volumes:
+      - .:/work/app
+    depends_on:
+      - rails_db
+      - rails_smtp
+    links:
+      - rails_db
+      - rails_smtp
+
+  rails_smtp:
+    image: schickling/mailcatcher
+    ports:
+      - "1080:1080"
+      - "1025:1025"
+
+  rails_phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "18080:80"
+    depends_on:
+      - rails_db
+    links:
+      - rails_db
+    environment:
+      PMA_HOST: rails_db
+      PMA_USER: root
+      PMA_PASSWORD: root
