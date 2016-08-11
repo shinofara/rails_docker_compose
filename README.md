@@ -1,50 +1,30 @@
-
-## Install xbuild
-
-```
-$ git clone https://github.com/tagomoris/xbuild.git
-```
-
-## Install Ruby 2.3
+Docker Build
 
 ```
-$ ./xbuild/ruby-install 2.3.0 ~/local/ruby-2.3
-$ export PATH=/Users/shinofara/local/ruby-2.3/bin:$PATH
+$ make
 ```
 
-## Install Rails 5.0.0 beta3
+Docker RUN
 
 ```
-$ gem install rails -v 5.0.0.beta3
+$ make up
 ```
 
-## Create Sample App
+http://localhost/
 
-```
-$ rails new sample
-```
+### PHP MY ADMIN
 
-## Run Sample App
+http://localhost:18080/
 
-```
-$ cd sample
-$ rails server
-```
 
-## Build Docker Container
+### Mail Catcher
 
-```
-$ docker-compose build
-```
+メールブラウザ
+http://localhost:1080/
 
-## Run Rails Server On Docker Container
+SMTP設定
 
-```
-$ docker-compose up
-```
-
-## Send mail
-
-```
-$ rails runner Tasks::Sendmail.execute
-```
+| 項目   | 値         |
+| ------ | ---------- |
+| ポート | 1025       |
+| ホスト | rails_smtp |
