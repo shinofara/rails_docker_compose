@@ -28,7 +28,7 @@ services:
     build: .
     command: bundle exec puma -C config/puma.rb
     volumes:
-      - .:/work/app
+      - ./src:/work/app
     depends_on:
       - rails_db
       - rails_smtp
