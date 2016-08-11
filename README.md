@@ -1,3 +1,11 @@
+使い方
+
+使いたいRAILSのリポジトリをクローンします
+
+```
+$ git clone git@github.com:shinofara/sample-rail5.git ./src
+```
+
 Docker Build
 
 ```
