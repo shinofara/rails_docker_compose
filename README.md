@@ -1,9 +1,16 @@
 使い方
 
+当リポジトリをクローン
+
+```
+$ git clone https://github.com/shinofara/rails_docker_compose.git /path/to/workspace
+$ cd /path/to/workspace
+```
+
 使いたいRAILSのリポジトリをクローンします
 
 ```
-$ git clone https://github.com/shinofara/sample-rail5.git ./src
+$ git clone https://github.com/shinofara/sample-rail5.git ./src && cd ./src
 ```
 
 Docker Build
