@@ -10,7 +10,7 @@ $ cd /path/to/workspace
 使いたいRAILSのリポジトリをクローンします
 
 ```
-$ git clone https://github.com/shinofara/sample-rail5.git ./src && cd ./src
+$ git clone https://github.com/shinofara/sample-rail5.git ./src
 ```
 
 Docker Build
