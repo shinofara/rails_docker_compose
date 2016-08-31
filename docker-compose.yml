@@ -1,7 +1,7 @@
 version: '2'
 services:
   rails_nginx:
-    image: nginx:1.11.0-alpine
+    image: nginx:1.11-alpine
     ports:
       - 80:80
     volumes:
@@ -17,18 +17,24 @@ services:
   rails_db:
     build: ./docker/mariadb
     volumes:
-      - ./.data/db/mysql:/var/lib/mysql
-      - ./.data/conf.d:/etc/mysql/conf.d:ro
       - /etc/localtime:/etc/localtime:ro
     environment:
-      MYSQL_DATABASE: sample_development
       MYSQL_ROOT_PASSWORD: root
       restart: always
-  rails_app:
-    build: .
-    command: bundle exec puma -C config/puma.rb
     volumes:
-      - ./src:/work/app
+      - mysql-data:/var/lib/mysql
+
+  rails_app:
+    build:
+      context: .
+      dockerfile: docker/app/Dockerfile
+      args:
+        app_dir: src
+    volumes:
+      - ${PWD}/docker/app/bin:/work/bin:ro
+      - ${PWD}/src:/work/app
+      - bundle-data:/bundle
+    command: sh /work/bin/run.sh
     depends_on:
       - rails_db
       - rails_smtp
@@ -54,3 +60,9 @@ services:
       PMA_HOST: rails_db
       PMA_USER: root
       PMA_PASSWORD: root
+
+volumes:
+  mysql-data:
+    driver: local
+  bundle-data:
+    driver: local
