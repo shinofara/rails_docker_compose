@@ -20,7 +20,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
     environment:
       MYSQL_ROOT_PASSWORD: root
-      restart: always
+    restart: always
     volumes:
       - mysql-data:/var/lib/mysql
 
