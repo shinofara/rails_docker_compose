@@ -29,7 +29,7 @@ services:
       context: .
       dockerfile: docker/app/Dockerfile
       args:
-        app_dir: src
+        app_dir: ./src
     volumes:
       - ${PWD}/docker/app/bin:/work/bin:ro
       - ${PWD}/src:/work/app
