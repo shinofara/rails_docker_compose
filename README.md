@@ -19,6 +19,8 @@ Docker Build
 $ make
 ```
 
+途中sudoで実行されるので、passwordの入力が必要
+
 Docker RUN
 
 ```
@@ -26,6 +28,7 @@ $ make up
 ```
 
 http://localhost/
+https://localhost/
 
 ### PHP MY ADMIN
 
