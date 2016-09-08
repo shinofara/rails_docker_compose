@@ -22,7 +22,7 @@ ssl:
 	openssl req -new -key .sslkey/server.key -subj "/C=/ST=/L=/O=/CN=/emailAddress=/" -out .sslkey/server.csr
 	openssl req -new -key .sslkey/localhost.key.rsa -subj "/C=US/ST=California/L=Orange/O=IndieWebCamp/CN=localhost/" -out docker/nginx/ssl/localhost.csr -config conf/localhost.conf
 
-	openssl x509 -req -days 365 -in docker/nginx/ssl/server.csr -signkey .sslkey/server.key -out .sslkey/server.crt
+	openssl x509 -req -days 365 -in .sslkey/server.csr -signkey .sslkey/server.key -out .sslkey/server.crt
 	openssl x509 -req -extensions v3_req -days 365 -in docker/nginx/ssl/localhost.csr -signkey .sslkey/localhost.key.rsa -out docker/nginx/ssl/localhost.crt -extfile conf/localhost.conf
 
 	sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain docker/nginx/ssl/localhost.crt
