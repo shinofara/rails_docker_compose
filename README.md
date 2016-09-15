@@ -1,25 +1,37 @@
-使い方
+## 使い方
 
-当リポジトリをクローン
+### 当リポジトリをクローン
 
 ```
 $ git clone https://github.com/shinofara/rails_docker_compose.git /path/to/workspace
 $ cd /path/to/workspace
 ```
 
-使いたいRAILSのリポジトリをクローンします
+### 使いたいRAILSのリポジトリをクローンします
 
 ```
 $ git clone https://github.com/shinofara/sample-rail5.git ./src
 ```
 
-Docker Build
+### Docker Build
+
+Develop mode(https対応版)
 
 ```
 $ make
 ```
 
 途中sudoで実行されるので、passwordの入力が必要
+
+or
+
+Not Develop Mode(HTTP版)
+ELB配下など、ロードバランサでHTTPS対応する場合
+
+```
+$ make env=production
+````
+
 
 Docker RUN
 

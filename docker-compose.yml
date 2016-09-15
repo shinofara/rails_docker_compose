@@ -1,13 +1,23 @@
 version: '2'
 services:
+  rails_haproxy:
+    image: haproxy:1.6.9-alpine
+    ports:
+      - 443:443
+    volumes:
+      - ./docker/haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+      - ./ssl:/etc/haproxy/ssl:ro
+    depends_on:
+      - rails_nginx
+    links:
+      - rails_nginx
+
   rails_nginx:
     image: nginx:1.11-alpine
     ports:
       - 80:80
-      - 443:443
     volumes:
       - ./docker/nginx/conf.d:/etc/nginx/conf.d:ro
-      - ./docker/nginx/ssl:/etc/nginx/ssl:ro      
       - /etc/localtime:/etc/localtime:ro
     volumes_from:
       - rails_app
@@ -20,8 +30,8 @@ services:
     image: mariadb:10.0
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - ${PWD}/docker/mariadb/conf.d:/etc/mysql/conf.d:ro
-      - ${PWD}/docker/mariadb/init:/docker-entrypoint-initdb.d
+      - .docker/mariadb/conf.d:/etc/mysql/conf.d:ro
+      - .docker/mariadb/init:/docker-entrypoint-initdb.d
       - mysql-data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
@@ -33,8 +43,8 @@ services:
       args:
         app_dir: ./src
     volumes:
-      - ${PWD}/docker/app/bin:/work/bin:ro
-      - ${PWD}/src:/work/app
+      - ./docker/app/bin:/work/bin:ro
+      - ./src:/work/app
       - bundle-data:/bundle
     command: sh /work/bin/run.sh
     depends_on:

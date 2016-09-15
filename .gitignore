@@ -26,3 +26,7 @@ vendor
 .data
 src
 .sslkey
+*.crt
+*.csr
+*.pem
+*.key
