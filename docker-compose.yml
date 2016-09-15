@@ -30,8 +30,8 @@ services:
     image: mariadb:10.0
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - .docker/mariadb/conf.d:/etc/mysql/conf.d:ro
-      - .docker/mariadb/init:/docker-entrypoint-initdb.d
+      - ./docker/mariadb/conf.d:/etc/mysql/conf.d:ro
+      - ./docker/mariadb/init:/docker-entrypoint-initdb.d:ro
       - mysql-data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
