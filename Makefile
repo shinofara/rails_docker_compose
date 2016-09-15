@@ -1,10 +1,25 @@
-default: ssl
+DEVELOPMODE=yes
+
+ifdef env
+ifneq "${env}" "develop"
+DEVELOPMODE=no
+endif
+endif
+
+default:
+	@if [ "$(DEVELOPMODE)" = "yes" ]; then \
+		$(MAKE) make-ssl; \
+	fi
 	docker-compose build
 	@docker-compose up -d rails_db
 	@docker-compose run --no-deps --rm rails_app bundle install
 
 up: migrate clean
-	docker-compose up
+	if [ -f ./ssl/localhost.pem ]; then \
+		docker-compose up; \
+	else \
+		docker-compose up rails_nginx rails_db rails_app rails_smtp rails_phpmyadmin; \
+	fi
 
 migrate:
 	@while ! docker-compose run --rm rails_db ls /var/lib/mysql/sample_development > /dev/null ; do sleep 4; echo "."; done
@@ -13,7 +28,7 @@ migrate:
 update-bundle:
 	@docker-compose run --rm rails_app bundle update
 
-ssl:
+make-ssl:
 	mkdir -p .sslkey ssl
 	openssl genrsa -out .sslkey/server.key 2048
 	openssl genrsa -out ssl/localhost.key 2048
