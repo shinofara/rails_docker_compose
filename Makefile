@@ -18,7 +18,7 @@ up: migrate clean
 	if [ -f ./ssl/localhost.pem ]; then \
 		docker-compose up; \
 	else \
-		docker-compose up rails_nginx rails_db rails_app rails_smtp rails_phpmyadmin; \
+		docker-compose up rails_nginx rails_db rails_app rails_smtp rails_phpmyadmin promethus container-exporter; \
 	fi
 
 migrate:

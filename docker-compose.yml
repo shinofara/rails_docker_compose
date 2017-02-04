@@ -72,6 +72,21 @@ services:
       PMA_USER: root
       PMA_PASSWORD: root
 
+  promethus:
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus:/conf/prometheus
+    command: -config.file=/conf/prometheus/prometheus.yml
+
+  container-exporter:
+    image: prom/container-exporter
+    ports:
+      - "9104:9104"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      
 volumes:
   mysql-data:
     driver: local
