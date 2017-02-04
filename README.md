@@ -59,6 +59,10 @@ SMTP設定
 | ポート | 1025       |
 | ホスト | rails_smtp |
 
+### Prometheus
+
+http://localhost:9090/graph
+
 ### generate
 
 ```
